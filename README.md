@@ -1,1 +1,1 @@
-# PhotoSearchcaseStudy
+# PhotoSearchCaseStudy
