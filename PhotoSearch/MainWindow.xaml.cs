@@ -14,6 +14,11 @@ namespace PhotoSearch
         public MainWindow()
         {
             InitializeComponent();
+            AddDataContext();
+        }
+
+        private void AddDataContext()
+        {
             var flickrFeedPhotoSearchService = new FlickrPublicFeedSearchService();
             var twitterSearchService = new TwitterSearchService();
             PhotoSearchViewModel = new PhotoSearchViewModel(flickrFeedPhotoSearchService, twitterSearchService);
