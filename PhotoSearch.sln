@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSearch", "PhotoSearch\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSearch.BLL", "PhotoSearch.BLL\PhotoSearch.BLL.csproj", "{2848CFC8-4D91-49F4-90D6-9BE3263079D4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeploymentPackage", "DeploymentPackage", "{E2E04D81-41A0-4CD4-9793-D13852860F42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
