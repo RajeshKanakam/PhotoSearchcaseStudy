@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PhotoSearch.BLL.Interfaces;
@@ -10,7 +12,7 @@ namespace PhotoSearch.BLL.Services
 {
     public class FlickrPublicFeedSearchService : ViewModelBase, ISearchService<Photo>
     {
-        private string requestUrl = "https://www.flickr.com/services/feeds/photos_public.gne?tags={0}&format=json";
+        private string requestUrl = ConfigurationManager.AppSettings["flickrSearchUrl"];
 
         private string _searchString;
         public string SearchString
@@ -27,10 +29,16 @@ namespace PhotoSearch.BLL.Services
 
         public async Task<List<Photo>> ExecuteSearch()
         {
-
-            string result = await ExecuteFlickrRequest(string.Format(requestUrl, SearchString));
-            var photoMetaData = JsonConvert.DeserializeObject<PhotosMetaData>(result);
-            return photoMetaData.Items;
+            try
+            {
+                string result = await ExecuteFlickrRequest(string.Format(requestUrl, SearchString));
+                var photoMetaData = JsonConvert.DeserializeObject<PhotosMetaData>(result);
+                return photoMetaData.Items;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private async Task<string> ExecuteFlickrRequest(string url)

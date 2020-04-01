@@ -61,9 +61,11 @@
     <Compile Include="Models\PhotoWithTweets.cs" />
     <Compile Include="Models\TwitterSearchModels\Description.cs" />
     <Compile Include="Models\TwitterSearchModels\Entities.cs" />
+    <Compile Include="Models\TwitterSearchModels\Error.cs" />
     <Compile Include="Models\TwitterSearchModels\ExpandedUrl.cs" />
     <Compile Include="Models\TwitterSearchModels\Status.cs" />
     <Compile Include="Models\TwitterSearchModels\TwitterBearerResponse.cs" />
+    <Compile Include="Models\TwitterSearchModels\TwitterError.cs" />
     <Compile Include="Models\TwitterSearchModels\TwitterSearchMetaData.cs" />
     <Compile Include="Models\TwitterSearchModels\Url.cs" />
     <Compile Include="Models\TwitterSearchModels\User.cs" />

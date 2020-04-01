@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -13,10 +14,23 @@ namespace PhotoSearch.BLL.Utilities
 
         public static async Task<string> GetResultAsync(string url)
         {
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return await client.GetStringAsync(url);
+                    return await client.GetStringAsync(url);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public static string Base64Encode(string stringText)
@@ -25,29 +39,54 @@ namespace PhotoSearch.BLL.Utilities
             return System.Convert.ToBase64String(stringTextBytes);
         }
 
-        public static string GetTwitterBearerToken(string url, string encodedPair)
+        public static async Task<string> GetTwitterBearerToken(string url, string encodedPair)
         {
-            ServicePointManager.Expect100Continue = false;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var client = new RestClient(url);
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", "Basic " + Base64Encode(encodedPair));
-            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.AddParameter("grant_type", "client_credentials");
-            IRestResponse response = client.Execute(request);
-            TwitterBearerResponse bearerResponse = JsonConvert.DeserializeObject<TwitterBearerResponse>(response.Content);
-             return bearerResponse.Access_Token;
+            try
+            {
+                ServicePointManager.Expect100Continue = false;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                var client = new RestClient(url);
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("Authorization", "Basic " + Base64Encode(encodedPair));
+                request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+                request.AddParameter("grant_type", "client_credentials");
+                IRestResponse response = client.Execute(request);
+                TwitterBearerResponse bearerResponse =
+                    JsonConvert.DeserializeObject<TwitterBearerResponse>(response.Content);
+                await Task.Yield();
+                return bearerResponse.Access_Token;
+            }
+            catch (WebException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public static string GetTwitterSearchResponse(string url, string bearerToken)
+        public static async Task<string> GetTwitterSearchResponse(string url, string bearerToken)
         {
-            ServicePointManager.Expect100Continue = false;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var client = new RestClient(url);
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", bearerToken);
-            IRestResponse response = client.Execute(request);
-            return response.Content;
+            try
+            {
+                ServicePointManager.Expect100Continue = false;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                var client = new RestClient(url);
+                var request = new RestRequest(Method.GET);
+                request.AddHeader("Authorization", bearerToken);
+                IRestResponse response = client.Execute(request);
+                await Task.Yield();
+                return response.Content;
+            }
+            catch (WebException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

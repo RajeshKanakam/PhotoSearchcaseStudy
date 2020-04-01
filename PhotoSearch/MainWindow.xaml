@@ -111,10 +111,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="30" FontFamily="Arial" Foreground="GhostWhite" Text="{Binding SearchLabel}"  Visibility="{Binding SearchLabelVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
-                    <ProgressBar Grid.Row="0" HorizontalAlignment="Center" Width="400" Height="50" Minimum="0" 
-                                 Value="{Binding ProgressBarValue}" 
-                                 Maximum="100" Visibility="{Binding ProgressBarVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></ProgressBar>
+                    <TextBlock Grid.Row="0" Margin="0,200, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="30" FontFamily="Arial" Foreground="GhostWhite" Text="{Binding SearchLabel}"  Visibility="{Binding SearchLabelVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
