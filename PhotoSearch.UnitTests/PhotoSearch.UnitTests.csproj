@@ -56,6 +56,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PhotoSearch.BLL\PhotoSearch.BLL.csproj">
+      <Project>{2848CFC8-4D91-49F4-90D6-9BE3263079D4}</Project>
+      <Name>PhotoSearch.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PhotoSearch\PhotoSearch.csproj">
       <Project>{1F6DA9D0-B016-482A-B129-9047E4A93174}</Project>
       <Name>PhotoSearch</Name>
