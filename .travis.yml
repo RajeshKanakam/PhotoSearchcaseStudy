@@ -1,8 +1,9 @@
-language: csharp
-solution: PhotoSearch.sln
-install:
-  - nuget restore PhotoSearch.sln
-  - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
+ language: csharp
 script:
-  - msbuild /p:Configuration=Release PhotoSearch.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./DeploymentPackage/PhotoSearch.UnitTests.dll
+  - xbuild /p:Configuration=Release PhotoSearch.sln
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore PhotoSearch.sln
+after_script:
+  - nunit-console DeploymentPackage/PhotoSearch.UnitTests.dll
