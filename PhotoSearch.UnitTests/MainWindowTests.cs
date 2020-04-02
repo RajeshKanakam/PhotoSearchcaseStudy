@@ -15,6 +15,7 @@ namespace PhotoSearch.UnitTests
                 var mainWindow = new MainWindow();
                 Assert.IsNotNull(mainWindow);
             }
+
             catch (Exception exception)
             {
                 checkExeception = exception;
