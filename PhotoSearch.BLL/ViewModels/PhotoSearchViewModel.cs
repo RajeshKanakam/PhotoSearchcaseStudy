@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PhotoSearch.BLL.Commands;
 using System.Collections.ObjectModel;
 using System.Linq;
