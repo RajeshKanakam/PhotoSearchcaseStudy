@@ -21,6 +21,13 @@ namespace PhotoSearch.BLL.ViewModels
 
         private readonly ISearchService<Photo> _flickrFeedPhotoSearchService;
         private readonly ISearchService<Status> _twitterSearchService;
+
+        private readonly string httpRequestExceptionMsg =
+            "Error while sending the Search request. Possible reason could be that your PC cannot access Internet. Check and try again.";
+        private readonly string searchlabelWithNoPhotosMsg = "No Photos are found for the Search. Please try again!!";
+        private readonly string searchLabelWithInvalidSearchMsg = "Search String cannot be Empty. Please try again!!";
+        private readonly string searchLabelDefaultMsg = "Search results are Empty. Perform Search to view Photos here.";
+
         private ObservableCollection<PhotoWithTweets> _photosList;
         public ObservableCollection<PhotoWithTweets> PhotosList
         {
@@ -110,9 +117,14 @@ namespace PhotoSearch.BLL.ViewModels
 
             TweetsList = new ObservableCollection<Status>();
             PhotosList = new ObservableCollection<PhotoWithTweets>();
-            SearchLabel = "Search results are Empty. Perform Search to view Photos here.";
-            SearchLabelVisibility = true;
-            PhotoListVisibility = false;
+            SearchLabel = searchLabelDefaultMsg;
+            UpdateVisibility(true, false);
+        }
+
+        private void UpdateVisibility(bool searchVisibility, bool photoVisibility)
+        {
+            SearchLabelVisibility = searchVisibility;
+            PhotoListVisibility = photoVisibility;
         }
 
         /// <summary>
@@ -131,16 +143,11 @@ namespace PhotoSearch.BLL.ViewModels
         /// <returns></returns>
         private async Task StartSearch()
         {
-            if (string.IsNullOrWhiteSpace(SearchString))
-            {
-                SearchLabelVisibility = true;
-                PhotoListVisibility = false;
-                SearchLabel = "Search String cannot be Empty. Please try again!!";
-                return;
-            }
-            // Save command execution logic
-            SearchLabelVisibility = false;
-            PhotoListVisibility = false;
+            if(!IsValidSearch()) return;
+
+            // Reset Visibility
+            UpdateVisibility(false, false);
+
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
@@ -152,9 +159,8 @@ namespace PhotoSearch.BLL.ViewModels
                 if (results == null || results.Count == 0 || tweetsSearchResults == null ||
                     tweetsSearchResults.Count == 0)
                 {
-                    SearchLabelVisibility = true;
-                    PhotoListVisibility = false;
-                    SearchLabel = "No Photos are found for the Search. Please try again!!";
+                    UpdateVisibility(true, false); // Enable Search label
+                    SearchLabel = searchlabelWithNoPhotosMsg ;
                     return;
                 }
 
@@ -170,24 +176,18 @@ namespace PhotoSearch.BLL.ViewModels
                         TweetMessage = tweet.Text
                     });
 
-                if (result == null)
-                    PhotosList = new ObservableCollection<PhotoWithTweets>();
-                else
-                    PhotosList = new ObservableCollection<PhotoWithTweets>(result.ToList());
+                PhotosList = new ObservableCollection<PhotoWithTweets>(result.ToList());
 
-                PhotoListVisibility = true;
-                SearchLabelVisibility = false;
+                UpdateVisibility(false, true); // Make Photos Visible
             }
             catch (HttpRequestException webEx)
             {
-                PhotoListVisibility = false;
-                SearchLabelVisibility = true;
-                SearchLabel = "Error while sending the Search request. Possible reason could be that your PC cannot access Internet. Check and try again.";
+                UpdateVisibility(true, false);
+                SearchLabel = httpRequestExceptionMsg;
             }
             catch (Exception ex)
             {
-                PhotoListVisibility = false;
-                SearchLabelVisibility = true;
+                UpdateVisibility(true, false);
                 SearchLabel = ex.Message;
             }
             finally
@@ -195,6 +195,19 @@ namespace PhotoSearch.BLL.ViewModels
                 Mouse.OverrideCursor = null;
                 ExecuteSearch = true;
             }
+        }
+
+        private bool IsValidSearch()
+        {
+            if (string.IsNullOrWhiteSpace(SearchString))
+            {
+                SearchLabelVisibility = true;
+                PhotoListVisibility = false;
+                SearchLabel = searchLabelWithInvalidSearchMsg;
+                return false;
+            }
+
+            return true;
         }
     }
 }
