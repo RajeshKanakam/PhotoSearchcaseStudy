@@ -9,7 +9,6 @@ namespace PhotoSearch
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Property to hold ViewModel
         public PhotoSearchViewModel PhotoSearchViewModel { get; set; }
 
         public MainWindow()
@@ -18,9 +17,6 @@ namespace PhotoSearch
             AddDataContext();
         }
 
-        /// <summary>
-        /// Method to perform datacontext binding. Initializes required services.
-        /// </summary>
         private void AddDataContext()
         {
             var flickrFeedPhotoSearchService = new FlickrPublicFeedSearchService();

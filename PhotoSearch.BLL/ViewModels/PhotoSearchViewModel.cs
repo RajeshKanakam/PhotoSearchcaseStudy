@@ -12,15 +12,13 @@ using PhotoSearch.BLL.Models.TwitterSearchModels;
 
 namespace PhotoSearch.BLL.ViewModels
 {
-    /// <summary>
-    /// ViewModel class to support Photo Search View
-    /// </summary>
     public class PhotoSearchViewModel : ViewModelBase
     {
         public ObservableCollection<Status> TweetsList { get; set; }
 
         private readonly ISearchService<Photo> _flickrFeedPhotoSearchService;
         private readonly ISearchService<Status> _twitterSearchService;
+        private bool _canExecuteSearch;
         private ObservableCollection<PhotoWithTweets> _photosList;
         public ObservableCollection<PhotoWithTweets> PhotosList
         {
@@ -32,17 +30,6 @@ namespace PhotoSearch.BLL.ViewModels
             }
         }
 
-        private bool _canExecuteSearch;
-        public bool ExecuteSearch
-        {
-            get => _canExecuteSearch;
-            set
-            {
-                _canExecuteSearch = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private string _searchString;
         public string SearchString
         {
@@ -50,10 +37,10 @@ namespace PhotoSearch.BLL.ViewModels
             set
             {
                 _searchString = value;
-                NotifyPropertyChanged();
                 this._flickrFeedPhotoSearchService.SearchString = value;
                 this._twitterSearchService.SearchString = value;
-                ExecuteSearch = true;
+                _canExecuteSearch = true;
+                NotifyPropertyChanged();
             }
         }
 
@@ -115,27 +102,19 @@ namespace PhotoSearch.BLL.ViewModels
             PhotoListVisibility = false;
         }
 
-        /// <summary>
-        /// Command is enabled based on ExecuteSearch variable
-        /// </summary>
-        /// <returns></returns>
         private bool CanSearch()
         {
             // Verify command can be executed here
-            return ExecuteSearch;
+            return _canExecuteSearch;
         }
 
-        /// <summary>
-        /// Command to execute a Search query
-        /// </summary>
-        /// <returns></returns>
         private async Task StartSearch()
         {
             if (string.IsNullOrWhiteSpace(SearchString))
             {
                 SearchLabelVisibility = true;
                 PhotoListVisibility = false;
-                SearchLabel = "Search String cannot be Empty. Please try again!!";
+                SearchLabel = "Seach String cannot be Empty. Please try again!!";
                 return;
             }
             // Save command execution logic
@@ -144,19 +123,10 @@ namespace PhotoSearch.BLL.ViewModels
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
-                ExecuteSearch = false;
+                _canExecuteSearch = false;
                 PhotosList.Clear();
                 var results = await _flickrFeedPhotoSearchService.ExecuteSearch();
                 var tweetsSearchResults = await _twitterSearchService.ExecuteSearch();
-
-                if (results == null || results.Count == 0 || tweetsSearchResults == null ||
-                    tweetsSearchResults.Count == 0)
-                {
-                    SearchLabelVisibility = true;
-                    PhotoListVisibility = false;
-                    SearchLabel = "No Photos are found for the Search. Please try again!!";
-                    return;
-                }
 
                 var result = (from photo in results
                     from tweet in tweetsSearchResults
@@ -168,15 +138,27 @@ namespace PhotoSearch.BLL.ViewModels
                         TwitTwitterUserId = tweet.User.Screen_Name,
                         TweetTimeStamp = tweet.Created_At.Substring(4, 6),
                         TweetMessage = tweet.Text
-                    });
+                    })?.ToList();
 
-                if (result == null)
-                    PhotosList = new ObservableCollection<PhotoWithTweets>();
+                var temPhotoList = new ObservableCollection<PhotoWithTweets>();
+                foreach (var photoWithTweet in result)
+                {
+                    temPhotoList.Add(photoWithTweet);
+                }
+
+                PhotosList = temPhotoList;
+                if (PhotosList.Count > 0)
+                {
+                    PhotoListVisibility = true;
+                    SearchLabelVisibility = false;
+                }
                 else
-                    PhotosList = new ObservableCollection<PhotoWithTweets>(result.ToList());
+                {
+                    PhotoListVisibility = false;
+                    SearchLabelVisibility = true;
 
-                PhotoListVisibility = true;
-                SearchLabelVisibility = false;
+                    SearchLabel = "No Photos are found for the Search. Please try again!!";
+                }
             }
             catch (HttpRequestException webEx)
             {
@@ -193,7 +175,7 @@ namespace PhotoSearch.BLL.ViewModels
             finally
             {
                 Mouse.OverrideCursor = null;
-                ExecuteSearch = true;
+                _canExecuteSearch = true;
             }
         }
     }
