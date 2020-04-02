@@ -12,7 +12,7 @@ namespace PhotoSearch.BLL.Services
 {
     public class FlickrPublicFeedSearchService : ViewModelBase, ISearchService<Photo>
     {
-        private string requestUrl = ConfigurationManager.AppSettings["flickrSearchUrl"];
+        private readonly string _flickrSearchRequestUrl = ConfigurationManager.AppSettings["flickrSearchUrl"];
 
         private string _searchString;
         public string SearchString
@@ -31,7 +31,7 @@ namespace PhotoSearch.BLL.Services
         {
             try
             {
-                string result = await ExecuteFlickrRequest(string.Format(requestUrl, SearchString));
+                string result = await ExecuteFlickrRequest(string.Format(_flickrSearchRequestUrl, SearchString));
                 var photoMetaData = JsonConvert.DeserializeObject<PhotosMetaData>(result);
                 return photoMetaData.Items;
             }
