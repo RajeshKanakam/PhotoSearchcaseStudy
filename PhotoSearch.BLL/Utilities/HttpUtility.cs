@@ -9,9 +9,16 @@ using RestSharp;
 
 namespace PhotoSearch.BLL.Utilities
 {
+    /// <summary>
+    /// HttpUtility class provides methods to execute HTTP requests like REST API calls
+    /// </summary>
     public class HttpUtility
     {
-
+        /// <summary>
+        /// Method to perform HTTP Get request
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>JSON data</returns>
         public static async Task<string> GetResultAsync(string url)
         {
             try
@@ -33,12 +40,23 @@ namespace PhotoSearch.BLL.Utilities
             }
         }
 
+        /// <summary>
+        /// Method to encode given string to Base64
+        /// </summary>
+        /// <param name="stringText"></param>
+        /// <returns></returns>
         public static string Base64Encode(string stringText)
         {
             var stringTextBytes = System.Text.Encoding.UTF8.GetBytes(stringText);
             return System.Convert.ToBase64String(stringTextBytes);
         }
 
+        /// <summary>
+        /// Method to retrieve Bearer Token for Twitter API Authorization
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="encodedPair"></param>
+        /// <returns>Bearer Token</returns>
         public static async Task<string> GetTwitterBearerToken(string url, string encodedPair)
         {
             try
@@ -66,6 +84,12 @@ namespace PhotoSearch.BLL.Utilities
             }
         }
 
+        /// <summary>
+        /// Method to retrieve Twitter tweet search results
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="bearerToken"></param>
+        /// <returns>Tweet results</returns>
         public static async Task<string> GetTwitterSearchResponse(string url, string bearerToken)
         {
             try

@@ -10,6 +10,10 @@ using PhotoSearch.BLL.ViewModels;
 
 namespace PhotoSearch.BLL.Services
 {
+    /// <summary>
+    /// FlickrPublicFeedSearchService service class. This service class provides methods to use Flickr Feed Search APIs.
+    /// search result provides a list of Photos
+    /// </summary>
     public class FlickrPublicFeedSearchService : ViewModelBase, ISearchService<Photo>
     {
         private readonly string _flickrSearchRequestUrl = ConfigurationManager.AppSettings["flickrSearchUrl"];
@@ -27,6 +31,10 @@ namespace PhotoSearch.BLL.Services
 
         public int MaxPerPage { get; set; } = 20;
 
+        /// <summary>
+        /// Method to convert resulted raw JSON of Flickr Feed Search query to PhotoMetaData
+        /// </summary>
+        /// <returns>A list of Photos</returns>
         public async Task<List<Photo>> ExecuteSearch()
         {
             try
@@ -41,9 +49,13 @@ namespace PhotoSearch.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Method to execute Flickr Feed Search query
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>Deserialized JSON data</returns>
         private async Task<string> ExecuteFlickrRequest(string url)
         {
-            
             var result = await HttpUtility.GetResultAsync(url);
             result = result.Replace("jsonFlickrFeed(", "");
             result = result.Substring(0, result.Length - 1);
