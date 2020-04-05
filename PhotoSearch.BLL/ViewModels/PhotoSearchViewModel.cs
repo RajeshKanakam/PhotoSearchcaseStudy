@@ -201,8 +201,7 @@ namespace PhotoSearch.BLL.ViewModels
         {
             if (string.IsNullOrWhiteSpace(SearchString))
             {
-                SearchLabelVisibility = true;
-                PhotoListVisibility = false;
+                UpdateVisibility(true, false);
                 SearchLabel = searchLabelWithInvalidSearchMsg;
                 return false;
             }
