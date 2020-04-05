@@ -52,11 +52,13 @@
                     <TextBox Grid.Row="0" Grid.Column="1" Margin="10,30,0,0" FontSize="15" FontFamily="Arial" Text="{Binding SearchString}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" MinWidth="250" />
                     <Button IsDefault="True" Grid.Row="0" Grid.Column="2" Margin="50,30,0,0" Content="Search" MinWidth="200" BorderThickness="3" BorderBrush="LightBlue" Foreground="Black" Command="{Binding SearchCommand}"/>
                 </Grid>
-                <Grid Margin="100,50,50,0">
+                <Grid Margin="100,0,0,0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ItemsControl Grid.Row="0" ItemsSource="{Binding PhotosList}" Visibility="{Binding PhotoListVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Label Content="{Binding Path=SearchString}" ContentStringFormat="Images for {0}" Visibility="{Binding PhotoListVisibility, Converter={StaticResource BoolToVisibilityConverter}}" FontSize="20" Foreground="SkyBlue" FontFamily="Caliber" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0"></Label>
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding PhotosList}" Margin="0" Visibility="{Binding PhotoListVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
@@ -111,7 +113,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <TextBlock Grid.Row="0" Margin="0,200, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="30" FontFamily="Arial" Foreground="GhostWhite" Text="{Binding SearchLabel}"  Visibility="{Binding SearchLabelVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                    <TextBlock Grid.Row="1" Margin="0,100, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="30" FontFamily="Arial" Foreground="GhostWhite" Text="{Binding SearchLabel}"  Visibility="{Binding SearchLabelVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
