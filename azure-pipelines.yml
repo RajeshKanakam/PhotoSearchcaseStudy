@@ -26,7 +26,7 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/target:publish /p:PublishURL=https://windowsappbucket.s3.ap-south-1.amazonaws.com/   /p:UpdateEnabled=true  /p:UpdateMode=Foreground  /p:ProductName="PhotoSearch" /p:OutputPath="$(build.ArtifactStagingDirectory)\Publish\\"'
+    msbuildArgs: '/target:..\DeploymentPackage\Publish /p:PublishURL=https://windowsappbucket.s3.ap-south-1.amazonaws.com/   /p:UpdateEnabled=true  /p:UpdateMode=Foreground  /p:ProductName="PhotoSearch" /p:OutputPath="$(build.ArtifactStagingDirectory)\Publish\\"'
 
 
 - task: VSTest@2
