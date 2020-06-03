@@ -41,17 +41,6 @@ namespace PhotoSearch.BLL.Utilities
         }
 
         /// <summary>
-        /// Method to encode given string to Base64
-        /// </summary>
-        /// <param name="stringText"></param>
-        /// <returns></returns>
-        public static string Base64Encode(string stringText)
-        {
-            var stringTextBytes = System.Text.Encoding.UTF8.GetBytes(stringText);
-            return System.Convert.ToBase64String(stringTextBytes);
-        }
-
-        /// <summary>
         /// Method to retrieve Bearer Token for Twitter API Authorization
         /// </summary>
         /// <param name="url"></param>
@@ -65,7 +54,7 @@ namespace PhotoSearch.BLL.Utilities
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 var client = new RestClient(url);
                 var request = new RestRequest(Method.POST);
-                request.AddHeader("Authorization", "Basic " + Base64Encode(encodedPair));
+                request.AddHeader("Authorization", "Basic " + EncryptionUtility.Base64Encode(encodedPair));
                 request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
                 request.AddParameter("grant_type", "client_credentials");
                 IRestResponse response = client.Execute(request);

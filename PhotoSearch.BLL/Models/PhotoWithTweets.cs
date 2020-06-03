@@ -6,7 +6,7 @@
 
         public string TwitterUserName { get; set; }
 
-        public string TwitTwitterUserId { get; set; }
+        public string TwitterUserId { get; set; }
 
         public string TweetTimeStamp { get; set; }
 
