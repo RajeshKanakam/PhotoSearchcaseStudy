@@ -171,7 +171,7 @@ namespace PhotoSearch.BLL.ViewModels
                     {
                         PhotoUrl = photo.Media.M,
                         TwitterUserName = tweet.User.Name,
-                        TwitTwitterUserId = tweet.User.Screen_Name,
+                        TwitterUserId = tweet.User.Screen_Name,
                         TweetTimeStamp = tweet.Created_At.Substring(4, 6),
                         TweetMessage = tweet.Text
                     });

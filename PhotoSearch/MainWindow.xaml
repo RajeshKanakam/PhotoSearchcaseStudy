@@ -113,7 +113,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <TextBlock Grid.Row="1" Margin="0,100, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="30" FontFamily="Arial" Foreground="GhostWhite" Text="{Binding SearchLabel}"  Visibility="{Binding SearchLabelVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                    <TextBlock Grid.Row="1" Margin="0,200, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="30" FontFamily="Arial" Foreground="GhostWhite" Text="{Binding SearchLabel}"  Visibility="{Binding SearchLabelVisibility, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

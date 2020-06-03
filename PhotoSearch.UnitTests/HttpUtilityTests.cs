@@ -42,7 +42,7 @@ namespace PhotoSearch.UnitTests
         [TestMethod]
         public void GetBase64EncodedValueTest()
         {
-            var result = HttpUtility.Base64Encode("photo search");
+            var result = EncryptionUtility.Base64Encode("photo search");
             Assert.AreEqual(result, "cGhvdG8gc2VhcmNo");
         }
 
