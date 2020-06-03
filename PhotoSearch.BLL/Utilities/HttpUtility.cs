@@ -30,7 +30,7 @@ namespace PhotoSearch.BLL.Utilities
                     return await client.GetStringAsync(url);
                 }
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 throw;
             }

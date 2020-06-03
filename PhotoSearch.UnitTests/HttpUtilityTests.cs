@@ -49,7 +49,7 @@ namespace PhotoSearch.UnitTests
         [TestMethod]
         public async Task GetBearerTokenTest()
         {
-            string formattedToken = _consumerKey + ":" + _consumerSecret;
+            string formattedToken = EncryptionUtility.DecodeBase64(_consumerKey) + ":" + EncryptionUtility.DecodeBase64(_consumerSecret);
             string formattedUrl = string.Format(_searchUrl, "nature", 20);
             string authorizationToken = "Bearer " + await HttpUtility.GetTwitterBearerToken(_authorizationUrl, formattedToken);
             Assert.IsTrue(!string.IsNullOrWhiteSpace(authorizationToken));
@@ -58,7 +58,7 @@ namespace PhotoSearch.UnitTests
         [TestMethod]
         public async Task GetTwitterResponseTest()
         {
-            string formattedToken = _consumerKey + ":" + _consumerSecret;
+            string formattedToken = EncryptionUtility.DecodeBase64(_consumerKey) + ":" + EncryptionUtility.DecodeBase64(_consumerSecret);
             string formattedUrl = string.Format(_searchUrl, "nature", 20);
             string authorizationToken = "Bearer " + await HttpUtility.GetTwitterBearerToken(_authorizationUrl, formattedToken);
             string response = await HttpUtility.GetTwitterSearchResponse(formattedUrl, authorizationToken);

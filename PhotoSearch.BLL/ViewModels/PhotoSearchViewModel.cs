@@ -180,7 +180,7 @@ namespace PhotoSearch.BLL.ViewModels
 
                 UpdateVisibility(false, true); // Make Photos Visible
             }
-            catch (HttpRequestException webEx)
+            catch (HttpRequestException)
             {
                 UpdateVisibility(true, false);
                 SearchLabel = httpRequestExceptionMsg;

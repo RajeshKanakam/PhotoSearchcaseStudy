@@ -8,6 +8,7 @@ using PhotoSearch.BLL.Models.FlickrSearchModels;
 using PhotoSearch.BLL.Utilities;
 using PhotoSearch.BLL.ViewModels;
 
+
 namespace PhotoSearch.BLL.Services
 {
     /// <summary>
