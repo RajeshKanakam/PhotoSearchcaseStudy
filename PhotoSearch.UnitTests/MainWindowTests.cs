@@ -31,7 +31,6 @@ namespace PhotoSearch.UnitTests
             {
                 var mainWindow = new MainWindow();
                 Assert.IsNotNull(mainWindow);
-                Assert.IsNotNull(mainWindow.PhotoSearchViewModel);
             }
             catch (Exception exception)
             {

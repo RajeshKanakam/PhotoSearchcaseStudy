@@ -47,7 +47,7 @@ namespace PhotoSearch.BLL.Services
             {
                 string formattedUrl = string.Format(_searchUrl, SearchString, MaxPerPage);
                 // Encode access tokens to get Bearer Token
-                string formattedToken = _consumerKey + ":" + _consumerSecret;
+                string formattedToken = EncryptionUtility.DecodeBase64(_consumerKey) + ":" + EncryptionUtility.DecodeBase64(_consumerSecret);
                 string authorizationToken = "Bearer " + await HttpUtility.GetTwitterBearerToken(_authorizationUrl, formattedToken);
 
                 // execute Twitter Search query
